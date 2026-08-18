@@ -153,6 +153,7 @@ export function LaunchOverlay({
                 alt=""
                 width={platform.logo.width}
                 height={platform.logo.height}
+                sizes="64px"
                 className="h-8 w-8 object-contain"
               />
             ) : Icon ? (

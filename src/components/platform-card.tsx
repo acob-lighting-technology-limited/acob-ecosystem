@@ -60,6 +60,9 @@ export function PlatformCard({
               alt=""
               width={logo.width}
               height={logo.height}
+              // Rendered at 24px; without this Next picks a srcset entry from
+              // the intrinsic width (up to 2048px) for a thumbnail-sized mark.
+              sizes="48px"
               className="h-6 w-6 object-contain"
             />
           ) : Icon ? (
