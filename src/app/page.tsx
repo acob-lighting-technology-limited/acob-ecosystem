@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { Sparkles, Mail } from "lucide-react";
+import { Mail } from "lucide-react";
 import NeonMesh from "@/components/neon-mesh";
 import PlatformCard, { type Platform } from "@/components/platform-card";
 import LaunchOverlay, { type LaunchState } from "@/components/launch-overlay";
@@ -28,9 +28,10 @@ const platforms: Platform[] = [
     name: "Beverly",
     domain: "beverly.acoblighting.com",
     href: "https://beverly.acoblighting.com",
-    description: "A dedicated ACOB platform serving its own part of the business.",
+    description:
+      "CRM and wallet operations — vendors, customers, vending activity, funding queues, and reports.",
     tag: "External",
-    icon: Sparkles,
+    logo: { src: "/images/beverly-logo.png", width: 1024, height: 351 },
   },
   {
     name: "Webmail",
@@ -106,6 +107,7 @@ export default function Home() {
             width={3533}
             height={919}
             priority
+            sizes="240px"
             className="h-12 w-auto sm:h-14"
           />
           <span className="pointer-events-auto hidden items-center gap-2 rounded-full border border-white/12 bg-white/[0.05] px-3.5 py-1.5 text-[11px] font-bold tracking-wide text-white/70 backdrop-blur-xl sm:inline-flex">
