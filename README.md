@@ -16,7 +16,7 @@ A unified entry gateway and portal for **ACOB Lighting Technology Limited**, con
 | **ACOB Lighting** | `www.acoblighting.com` | Official corporate site — services, project portfolio, company news, and national reach. | **Public** |
 | **Matrix** | `matrix.acoblighting.com` | Internal Enterprise Resource Planning (ERP): HR, leave management, help desk, correspondence, asset tracking, and reporting. | **Internal** |
 | **Beverly** | `beverly.acoblighting.com` | Dedicated ACOB platform serving specialized business operations. | **External** |
-| **Webmail** | `www.acoblighting.com/mail` | Official corporate email client for `@acoblighting.com` staff. | **Mail** |
+| **Webmail** | `www.acoblighting.com/mail` | Official corporate email client for `@org.acoblighting.com` staff. | **Mail** |
 
 ---
 

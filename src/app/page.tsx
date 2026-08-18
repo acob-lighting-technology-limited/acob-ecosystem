@@ -36,7 +36,7 @@ const platforms: Platform[] = [
     name: "Webmail",
     domain: "www.acoblighting.com/mail",
     href: "https://www.acoblighting.com/mail",
-    description: "Company email for ACOB staff — sign in with your @acoblighting.com account.",
+    description: "Official corporate email client for @org.acoblighting.com staff.",
     tag: "Mail",
     icon: Mail,
   },
