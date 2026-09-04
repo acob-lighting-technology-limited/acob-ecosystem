@@ -31,7 +31,7 @@ const platforms: Platform[] = [
     description:
       "CRM and wallet operations — vendors, customers, vending activity, funding queues, and reports.",
     tag: "External",
-    logo: { src: "/images/beverly-logo.png", width: 1024, height: 351 },
+    logo: { src: "/images/beverly-mark.png", width: 1024, height: 1024 },
   },
   {
     name: "Webmail",
