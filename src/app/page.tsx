@@ -6,6 +6,7 @@ import { Mail } from "lucide-react";
 import NeonMesh from "@/components/neon-mesh";
 import PlatformCard, { type Platform } from "@/components/platform-card";
 import LaunchOverlay, { type LaunchState } from "@/components/launch-overlay";
+import ThemeToggle from "@/components/theme-toggle";
 
 const platforms: Platform[] = [
   {
@@ -83,15 +84,15 @@ export default function Home() {
         <NeonMesh className="absolute inset-0" />
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,rgba(3,9,10,0.7)_100%)]"
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,var(--vignette)_100%)]"
         />
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-[#03090a] to-transparent"
+          className="pointer-events-none absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-background to-transparent"
         />
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-[#03090a] to-transparent"
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-background to-transparent"
         />
       </div>
 
@@ -101,6 +102,17 @@ export default function Home() {
         {/* -my-2 absorbs the taller logo so it scales up without pushing the
             hero and cards further down the page. */}
         <header className="animate-fade-up -my-2 flex shrink-0 items-center justify-between gap-4">
+          {/* Both variants are rendered and swapped by the `dark` class, so the
+              right logo shows on first paint without waiting for hydration. */}
+          <Image
+            src="/images/acob-logo-light-2026.png"
+            alt="ACOB Lighting Technology Limited"
+            width={3539}
+            height={919}
+            priority
+            sizes="240px"
+            className="h-12 w-auto sm:h-14 dark:hidden"
+          />
           <Image
             src="/images/acob-logo-dark-2026.png"
             alt="ACOB Lighting Technology Limited"
@@ -108,28 +120,31 @@ export default function Home() {
             height={919}
             priority
             sizes="240px"
-            className="h-12 w-auto sm:h-14"
+            className="hidden h-12 w-auto sm:h-14 dark:block"
           />
-          <span className="pointer-events-auto hidden items-center gap-2 rounded-full border border-white/12 bg-white/[0.05] px-3.5 py-1.5 text-[11px] font-bold tracking-wide text-white/70 backdrop-blur-xl sm:inline-flex">
-            <span className="animate-pulse-dot h-1.5 w-1.5 rounded-full bg-[#b8862e]" />
-            Celebrating 10 Years of Impact
-          </span>
+          <div className="flex items-center gap-3">
+            <span className="pointer-events-auto hidden items-center gap-2 rounded-full border border-line-strong bg-surface px-3.5 py-1.5 text-[11px] font-bold tracking-wide text-soft backdrop-blur-xl sm:inline-flex">
+              <span className="animate-pulse-dot h-1.5 w-1.5 rounded-full bg-gold" />
+              Celebrating 10 Years of Impact
+            </span>
+            <ThemeToggle />
+          </div>
         </header>
 
         {/* Hero + cards */}
         <section className="flex flex-1 flex-col justify-center py-10 lg:py-0">
           <h1
-            className="animate-fade-up max-w-3xl text-[2.15rem] leading-[1.06] font-extrabold tracking-tight text-white sm:text-5xl lg:text-[3.5rem]"
+            className="animate-fade-up max-w-3xl text-[2.15rem] leading-[1.06] font-extrabold tracking-tight text-foreground sm:text-5xl lg:text-[3.5rem]"
             style={{ animationDelay: "0.1s" }}
           >
             Every ACOB platform,{" "}
-            <span className="bg-gradient-to-r from-[#7dfc9a] via-[#22c55e] to-[#7dfc9a] bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-heading-from via-heading-via to-heading-from bg-clip-text text-transparent">
               one place.
             </span>
           </h1>
 
           <p
-            className="animate-fade-up mt-5 max-w-xl text-[0.95rem] leading-relaxed text-white/55 sm:text-base"
+            className="animate-fade-up mt-5 max-w-xl text-[0.95rem] leading-relaxed text-muted sm:text-base"
             style={{ animationDelay: "0.18s" }}
           >
             A single gateway into the systems that run ACOB Lighting Technology Limited. Pick where
@@ -150,15 +165,15 @@ export default function Home() {
 
         {/* Footer */}
         <footer
-          className="animate-fade-up flex shrink-0 flex-col items-start justify-between gap-2 border-t border-white/8 pt-5 text-[11px] text-white/35 sm:flex-row sm:items-center"
+          className="animate-fade-up flex shrink-0 flex-col items-start justify-between gap-2 border-t border-line pt-5 text-[11px] text-subtle sm:flex-row sm:items-center"
           style={{ animationDelay: "0.75s" }}
         >
           <p>© {new Date().getFullYear()} ACOB Lighting Technology Limited. All rights reserved.</p>
           <div className="pointer-events-auto flex items-center gap-5">
-            <a href="tel:+2347049202634" className="transition-colors hover:text-[#7dfc9a]">
+            <a href="tel:+2347049202634" className="transition-colors hover:text-accent">
               +234 704 920 2634
             </a>
-            <a href="mailto:info@acoblighting.com" className="transition-colors hover:text-[#7dfc9a]">
+            <a href="mailto:info@acoblighting.com" className="transition-colors hover:text-accent">
               info@acoblighting.com
             </a>
           </div>

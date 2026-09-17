@@ -107,14 +107,14 @@ export function LaunchOverlay({
     <div className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden">
       {/* Backdrop */}
       <motion.div
-        className="absolute inset-0 bg-[#03090a]"
+        className="absolute inset-0 bg-background"
         initial={{ opacity: 0 }}
         animate={{ opacity: phase === "exit" ? 1 : 0.88 }}
         transition={{ duration: 0.45, ease: "easeOut" }}
       />
 
       <motion.div
-        className="relative flex flex-col overflow-hidden rounded-2xl border border-[#22c55e]/35 bg-[#0a1710] p-7 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.8)]"
+        className="relative flex flex-col overflow-hidden rounded-2xl border border-glow/35 bg-panel p-7 shadow-[0_30px_80px_-20px_var(--panel-shadow)]"
         style={{ width: card.w, height: card.h }}
         initial={{ x: fromX, y: fromY, scale: fromScale, opacity: 1 }}
         animate={
@@ -142,11 +142,11 @@ export function LaunchOverlay({
       >
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 bg-gradient-to-br from-[#22c55e]/14 via-transparent to-transparent"
+          className="pointer-events-none absolute inset-0 bg-gradient-to-br from-glow/14 via-transparent to-transparent"
         />
 
         <div className="relative flex items-start justify-between gap-3">
-          <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-[#22c55e]/25 bg-gradient-to-br from-[#22c55e]/20 to-[#008000]/10 text-[#7dfc9a]">
+          <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-glow/25 bg-gradient-to-br from-glow/20 to-brand/10 text-accent">
             {platform.logo ? (
               <Image
                 src={platform.logo.src}
@@ -160,20 +160,20 @@ export function LaunchOverlay({
               <Icon className="h-6 w-6" strokeWidth={2} />
             ) : null}
           </div>
-          <span className="rounded-full border border-white/12 bg-white/[0.06] px-2.5 py-1 text-[10px] font-bold tracking-wider text-white/60 uppercase">
+          <span className="rounded-full border border-line-strong bg-chip px-2.5 py-1 text-[10px] font-bold tracking-wider text-muted uppercase">
             {platform.tag}
           </span>
         </div>
 
         <div className="relative mt-6 flex-1">
-          <h3 className="text-xl font-extrabold tracking-tight text-white">{platform.name}</h3>
-          <p className="mt-1 font-mono text-[11px] break-all text-[#7dfc9a]/70">
+          <h3 className="text-xl font-extrabold tracking-tight text-foreground">{platform.name}</h3>
+          <p className="mt-1 font-mono text-[11px] break-all text-accent-muted">
             {platform.domain}
           </p>
-          <p className="mt-3 text-[13px] leading-relaxed text-white/55">{platform.description}</p>
+          <p className="mt-3 text-[13px] leading-relaxed text-muted">{platform.description}</p>
         </div>
 
-        <div className="relative flex items-center gap-1.5 text-[13px] font-semibold text-[#7dfc9a]">
+        <div className="relative flex items-center gap-1.5 text-[13px] font-semibold text-accent">
           <span>Opening</span>
           <ArrowUpRight className="h-4 w-4" />
         </div>

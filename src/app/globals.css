@@ -1,10 +1,78 @@
 @import "tailwindcss";
 
-@theme inline {
-  --color-background: #03090a;
-  --color-foreground: #f2f7f3;
+@custom-variant dark (&:where(.dark, .dark *));
 
-  /* ACOB brand green, extended into a neon-capable ramp for a dark ground */
+/* Light palette. The neon mint only reads on a dark ground, so light mode
+   swaps it for deeper greens that keep AA contrast on the pale surface. */
+:root {
+  color-scheme: light;
+  --background: #f4f8f5;
+  --foreground: #0b1a10;
+  --muted: rgba(11, 26, 16, 0.68);
+  --soft: rgba(11, 26, 16, 0.74);
+  --subtle: rgba(11, 26, 16, 0.6);
+  --surface: rgba(255, 255, 255, 0.72);
+  --surface-hover: rgba(255, 255, 255, 0.92);
+  --chip: rgba(21, 128, 61, 0.06);
+  /* Sage borders drawn from the background hue, so edges read as part of
+     the same green-grey family rather than neutral grey. */
+  --line: #c9d6cd;
+  --line-strong: #bccbc1;
+  --accent: #15803d;
+  --accent-muted: #15803d;
+  --glow: #16a34a;
+  --panel: #ffffff;
+  --heading-from: #166534;
+  --heading-via: #16a34a;
+  --vignette: rgba(244, 248, 245, 0.7);
+  --panel-shadow: rgba(11, 26, 16, 0.22);
+  --scroll-thumb: rgba(21, 128, 61, 0.3);
+  --scroll-thumb-hover: rgba(21, 128, 61, 0.5);
+}
+
+.dark {
+  color-scheme: dark;
+  --background: #03090a;
+  --foreground: #f2f7f3;
+  --muted: rgba(242, 247, 243, 0.55);
+  --soft: rgba(242, 247, 243, 0.65);
+  --subtle: rgba(242, 247, 243, 0.35);
+  --surface: rgba(255, 255, 255, 0.04);
+  --surface-hover: rgba(255, 255, 255, 0.07);
+  --chip: rgba(255, 255, 255, 0.06);
+  --line: rgba(255, 255, 255, 0.1);
+  --line-strong: rgba(255, 255, 255, 0.12);
+  --accent: #7dfc9a;
+  --accent-muted: rgba(125, 252, 154, 0.7);
+  --glow: #22c55e;
+  --panel: #0a1710;
+  --heading-from: #7dfc9a;
+  --heading-via: #22c55e;
+  --vignette: rgba(3, 9, 10, 0.7);
+  --panel-shadow: rgba(0, 0, 0, 0.8);
+  --scroll-thumb: rgba(34, 197, 94, 0.25);
+  --scroll-thumb-hover: rgba(34, 197, 94, 0.45);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-soft: var(--soft);
+  --color-subtle: var(--subtle);
+  --color-surface: var(--surface);
+  --color-surface-hover: var(--surface-hover);
+  --color-chip: var(--chip);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-accent: var(--accent);
+  --color-accent-muted: var(--accent-muted);
+  --color-glow: var(--glow);
+  --color-panel: var(--panel);
+  --color-heading-from: var(--heading-from);
+  --color-heading-via: var(--heading-via);
+
+  /* ACOB brand green ramp */
   --color-brand: #008000;
   --color-brand-bright: #22c55e;
   --color-brand-mint: #7dfc9a;
@@ -19,8 +87,8 @@ html {
 }
 
 body {
-  background: var(--color-background);
-  color: var(--color-foreground);
+  background: var(--background);
+  color: var(--foreground);
   font-family: var(--font-jakarta), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
@@ -28,23 +96,23 @@ body {
 
 ::selection {
   background: rgba(34, 197, 94, 0.3);
-  color: #fff;
+  color: var(--foreground);
 }
 
-/* Thin brand-tinted scrollbar so the dark canvas isn't broken by a light gutter */
+/* Thin brand-tinted scrollbar that matches the page ground */
 ::-webkit-scrollbar {
   width: 10px;
 }
 ::-webkit-scrollbar-track {
-  background: #03090a;
+  background: var(--background);
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(34, 197, 94, 0.25);
+  background: var(--scroll-thumb);
   border-radius: 999px;
-  border: 3px solid #03090a;
+  border: 3px solid var(--background);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(34, 197, 94, 0.45);
+  background: var(--scroll-thumb-hover);
 }
 
 @keyframes fade-up {

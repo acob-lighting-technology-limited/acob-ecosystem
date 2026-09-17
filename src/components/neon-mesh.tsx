@@ -34,7 +34,8 @@ export interface NeonMeshProps {
  *
  * Adapted from the "Neon Mesh" pattern with an ACOB green palette in place of
  * the original teal. Canvas fillStyle/strokeStyle can't read CSS custom
- * properties, so the brand values are inlined here as literals.
+ * properties, so both theme palettes are inlined here as literals and picked
+ * by watching the `dark` class next-themes toggles on <html>.
  *
  * Honors prefers-reduced-motion: the mesh still renders (it's the page's
  * backdrop, so it can't simply vanish) but the ambient wave and cursor
@@ -171,11 +172,19 @@ export function NeonMesh({ className = "" }: NeonMeshProps) {
 
     let time = 0;
 
-    // ACOB brand green. Deep near-black green ground so white content on top
-    // keeps AA contrast; mesh lines are green-500, hot lines a brighter mint.
-    const bgColor = "#03090a";
-    const baseMeshColor = "34, 197, 94";
-    const neonAccent = "rgba(125, 252, 154, 0.62)";
+    // Dark: near-black green ground, green-500 lines, mint hot lines.
+    // Light: pale ground with deeper green lines; thin lines need a stronger
+    // alpha to register against white.
+    const palettes = {
+      dark: { bg: "#03090a", mesh: "34, 197, 94", lineAlpha: 0.11, accent: "rgba(125, 252, 154, 0.62)" },
+      light: { bg: "#f4f8f5", mesh: "21, 128, 61", lineAlpha: 0.16, accent: "rgba(22, 163, 74, 0.7)" },
+    };
+    const root = document.documentElement;
+    let palette = root.classList.contains("dark") ? palettes.dark : palettes.light;
+    const themeObserver = new MutationObserver(() => {
+      palette = root.classList.contains("dark") ? palettes.dark : palettes.light;
+    });
+    themeObserver.observe(root, { attributes: true, attributeFilter: ["class"] });
 
     const render = () => {
       if (!reduceMotion) time += 0.022;
@@ -188,7 +197,7 @@ export function NeonMesh({ className = "" }: NeonMeshProps) {
       const cosY = Math.cos(mouse.angleY);
       const sinY = Math.sin(mouse.angleY);
 
-      ctx.fillStyle = bgColor;
+      ctx.fillStyle = palette.bg;
       ctx.fillRect(0, 0, width, height);
 
       for (let i = 0; i < points.length; i++) {
@@ -283,8 +292,8 @@ export function NeonMesh({ className = "" }: NeonMeshProps) {
         const avgScale = (c.p1.projScale + c.p2.projScale) / 2;
 
         ctx.strokeStyle = isHot
-          ? neonAccent
-          : `rgba(${baseMeshColor}, ${Math.min(0.65, Math.max(0.035, 0.11 * avgScale))})`;
+          ? palette.accent
+          : `rgba(${palette.mesh}, ${Math.min(0.65, Math.max(0.035, palette.lineAlpha * avgScale))})`;
         ctx.lineWidth = isHot ? 1.4 * avgScale : 0.6 * avgScale;
 
         ctx.beginPath();
@@ -298,7 +307,7 @@ export function NeonMesh({ className = "" }: NeonMeshProps) {
         const dx = mouse.x - p.projX;
         const dy = mouse.y - p.projY;
         if (Math.sqrt(dx * dx + dy * dy) < 85) {
-          ctx.fillStyle = neonAccent;
+          ctx.fillStyle = palette.accent;
           ctx.beginPath();
           ctx.arc(p.projX, p.projY, 1.8 * p.projScale, 0, Math.PI * 2);
           ctx.fill();
@@ -312,6 +321,7 @@ export function NeonMesh({ className = "" }: NeonMeshProps) {
 
     return () => {
       cancelAnimationFrame(animationFrameId);
+      themeObserver.disconnect();
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("mousemove", handleMouseMove);
       document.removeEventListener("mouseout", handleDocumentMouseOut);
