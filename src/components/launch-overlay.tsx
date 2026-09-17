@@ -1,10 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Image from "next/image";
 import { motion } from "motion/react";
 import { ArrowUpRight } from "lucide-react";
-import type { Platform } from "./platform-card";
+import { PlatformLogo, type Platform } from "./platform-card";
 
 export interface LaunchState {
   platform: Platform;
@@ -40,7 +39,6 @@ export function LaunchOverlay({
   onDone: () => void;
 }) {
   const { platform, rect } = launch;
-  const Icon = platform.icon;
   const [phase, setPhase] = useState<Phase>("enter");
 
   // Computed once, on the click that mounts this overlay.
@@ -147,18 +145,12 @@ export function LaunchOverlay({
 
         <div className="relative flex items-start justify-between gap-3">
           <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-glow/25 bg-gradient-to-br from-glow/20 to-brand/10 text-accent">
-            {platform.logo ? (
-              <Image
-                src={platform.logo.src}
-                alt=""
-                width={platform.logo.width}
-                height={platform.logo.height}
-                sizes="64px"
-                className="h-8 w-8 object-contain"
-              />
-            ) : Icon ? (
-              <Icon className="h-6 w-6" strokeWidth={2} />
-            ) : null}
+            <PlatformLogo
+              platform={platform}
+              sizes="64px"
+              imageClassName="h-8 w-8 object-contain"
+              iconClassName="h-6 w-6"
+            />
           </div>
           <span className="rounded-full border border-line-strong bg-chip px-2.5 py-1 text-[10px] font-bold tracking-wider text-muted uppercase">
             {platform.tag}

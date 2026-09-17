@@ -16,6 +16,8 @@ const platforms: Platform[] = [
     description: "Our corporate home — services, project portfolio, national reach, and company news.",
     tag: "Public",
     logo: { src: "/images/acob-mark.webp", width: 582, height: 582 },
+    // Light-mode favicon from the ACOB website; the only light variant of the bulb.
+    logoLight: { src: "/images/acob-mark-light.png", width: 48, height: 48 },
   },
   {
     name: "Matrix",
@@ -24,6 +26,7 @@ const platforms: Platform[] = [
     description: "The internal ERP: HR, leave, help desk, correspondence, assets, and reporting.",
     tag: "Internal",
     logo: { src: "/images/matrix-logo.webp", width: 751, height: 574 },
+    logoLight: { src: "/images/matrix-logo-light.webp", width: 906, height: 659 },
   },
   {
     name: "Beverly",
@@ -33,6 +36,7 @@ const platforms: Platform[] = [
       "CRM and wallet operations — vendors, customers, vending activity, funding queues, and reports.",
     tag: "External",
     logo: { src: "/images/beverly-mark.png", width: 1024, height: 1024 },
+    logoLight: { src: "/images/beverly-mark-light.png", width: 1024, height: 1024 },
   },
   {
     name: "Webmail",

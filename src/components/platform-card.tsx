@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export interface Platform {
   name: string;
@@ -11,8 +12,57 @@ export interface Platform {
   description: string;
   tag: string;
   /** Brand mark for the platform. Falls back to `icon` when absent. */
-  logo?: { src: string; width: number; height: number };
+  logo?: PlatformImage;
+  /** Variant for light mode; `logo` is used in both themes when absent. */
+  logoLight?: PlatformImage;
   icon?: LucideIcon;
+}
+
+interface PlatformImage {
+  src: string;
+  width: number;
+  height: number;
+}
+
+/**
+ * Renders the platform's mark, or its fallback icon. When a light-mode variant
+ * exists both are rendered and swapped by the `dark` class, so the right one
+ * shows on first paint without waiting for hydration.
+ */
+export function PlatformLogo({
+  platform,
+  sizes,
+  imageClassName,
+  iconClassName,
+}: {
+  platform: Platform;
+  sizes: string;
+  imageClassName: string;
+  iconClassName: string;
+}) {
+  const { logo, logoLight, icon: Icon } = platform;
+
+  if (!logo) return Icon ? <Icon className={iconClassName} strokeWidth={2} /> : null;
+
+  const image = (img: PlatformImage, themeClass?: string) => (
+    <Image
+      src={img.src}
+      alt=""
+      width={img.width}
+      height={img.height}
+      sizes={sizes}
+      className={cn(imageClassName, themeClass)}
+    />
+  );
+
+  return logoLight ? (
+    <>
+      {image(logoLight, "dark:hidden")}
+      {image(logo, "hidden dark:block")}
+    </>
+  ) : (
+    image(logo)
+  );
 }
 
 export function PlatformCard({
@@ -27,7 +77,7 @@ export function PlatformCard({
     rect: { top: number; left: number; width: number; height: number }
   ) => void;
 }) {
-  const { name, domain, href, description, tag, logo, icon: Icon } = platform;
+  const { name, domain, href, description, tag } = platform;
 
   return (
     <a
@@ -54,20 +104,14 @@ export function PlatformCard({
 
       <div className="relative flex items-start justify-between gap-3">
         <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-glow/25 bg-gradient-to-br from-glow/20 to-brand/10 text-accent transition-transform duration-300 group-hover:scale-110">
-          {logo ? (
-            <Image
-              src={logo.src}
-              alt=""
-              width={logo.width}
-              height={logo.height}
-              // Rendered at 24px; without this Next picks a srcset entry from
-              // the intrinsic width (up to 2048px) for a thumbnail-sized mark.
-              sizes="48px"
-              className="h-6 w-6 object-contain"
-            />
-          ) : Icon ? (
-            <Icon className="h-[18px] w-[18px]" strokeWidth={2} />
-          ) : null}
+          {/* Rendered at 24px; without `sizes` Next picks a srcset entry from
+              the intrinsic width (up to 2048px) for a thumbnail-sized mark. */}
+          <PlatformLogo
+            platform={platform}
+            sizes="48px"
+            imageClassName="h-6 w-6 object-contain"
+            iconClassName="h-[18px] w-[18px]"
+          />
         </div>
         <span className="rounded-full border border-line-strong bg-chip px-2 py-0.5 text-[9px] font-bold tracking-wider text-muted uppercase">
           {tag}
