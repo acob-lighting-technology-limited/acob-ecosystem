@@ -7,6 +7,7 @@ import NeonMesh from "@/components/neon-mesh";
 import PlatformCard, { type Platform } from "@/components/platform-card";
 import LaunchOverlay, { type LaunchState } from "@/components/launch-overlay";
 import ThemeToggle from "@/components/theme-toggle";
+import SocialDock from "@/components/social-dock";
 
 const platforms: Platform[] = [
   {
@@ -168,12 +169,15 @@ export default function Home() {
         </section>
 
         {/* Footer */}
+        {/* Dock sits on its own row until lg, then centres between the two
+            1fr columns so its magnification never shifts the text beside it. */}
         <footer
-          className="animate-fade-up flex shrink-0 flex-col items-start justify-between gap-2 border-t border-line pt-5 text-[11px] text-subtle sm:flex-row sm:items-center"
+          className="animate-fade-up grid shrink-0 grid-cols-1 items-center gap-x-6 gap-y-3 border-t border-line pt-4 text-[11px] text-subtle sm:grid-cols-[1fr_auto] lg:grid-cols-[1fr_auto_1fr]"
           style={{ animationDelay: "0.75s" }}
         >
           <p>© {new Date().getFullYear()} ACOB Lighting Technology Limited. All rights reserved.</p>
-          <div className="pointer-events-auto flex items-center gap-5">
+          <SocialDock className="order-first mb-1 justify-self-start sm:col-span-2 lg:order-none lg:col-span-1 lg:mb-0 lg:justify-self-center" />
+          <div className="pointer-events-auto flex items-center gap-5 sm:justify-self-end">
             <a href="tel:+2347049202634" className="transition-colors hover:text-accent">
               +234 704 920 2634
             </a>

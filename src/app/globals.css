@@ -147,6 +147,42 @@ body {
   animation: pulse-dot 2.4s ease-in-out infinite;
 }
 
+/* A comet of light that slowly orbits the social dock's border. The angle is
+   a registered property so the conic gradient can interpolate it. */
+@property --dock-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes dock-orbit {
+  to {
+    --dock-angle: 360deg;
+  }
+}
+
+.dock-sheen::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  padding: 1px;
+  border-radius: inherit;
+  background: conic-gradient(
+    from var(--dock-angle),
+    transparent 0 72%,
+    var(--glow) 86%,
+    transparent 100%
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0.55;
+  pointer-events: none;
+  animation: dock-orbit 7s linear infinite;
+}
+
 /* The page recedes behind the launch overlay */
 .is-launching .page-content {
   transform: scale(0.97);
@@ -166,6 +202,9 @@ body {
   }
   .is-launching .page-content {
     transition: none;
+  }
+  .dock-sheen::before {
+    animation: none;
   }
   html {
     scroll-behavior: auto;

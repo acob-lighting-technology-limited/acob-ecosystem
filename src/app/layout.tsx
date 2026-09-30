@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
+import { socials } from "@/lib/socials";
 import "./globals.css";
 
 const jakarta = Plus_Jakarta_Sans({
@@ -32,12 +33,30 @@ export const viewport: Viewport = {
   ],
 };
 
+// Lets search engines tie the official social profiles to ACOB's knowledge panel.
+const organizationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "ACOB Lighting Technology Limited",
+  url: "https://www.acoblighting.com",
+  logo: "https://ecosystem.acoblighting.com/images/acob-mark.webp",
+  email: "info@acoblighting.com",
+  telephone: "+2347049202634",
+  sameAs: socials.map((social) => social.href),
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${jakarta.variable} antialiased`}>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(organizationJsonLd).replace(/</g, "\\u003c"),
+          }}
+        />
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           {children}
         </ThemeProvider>
