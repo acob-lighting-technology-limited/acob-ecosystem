@@ -1,3 +1,4 @@
+import { ChristmasTheme } from "@/components/christmas-theme"
 import type { Metadata, Viewport } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -51,6 +52,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${jakarta.variable} antialiased`}>
+        <ChristmasTheme />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

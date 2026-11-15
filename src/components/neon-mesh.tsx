@@ -179,12 +179,23 @@ export function NeonMesh({ className = "" }: NeonMeshProps) {
       dark: { bg: "#03090a", mesh: "34, 197, 94", lineAlpha: 0.11, accent: "rgba(125, 252, 154, 0.62)" },
       light: { bg: "#f4f8f5", mesh: "21, 128, 61", lineAlpha: 0.16, accent: "rgba(22, 163, 74, 0.7)" },
     };
+    // Christmas (html[data-season="christmas"]): the cream / pine grounds from
+    // globals.css, with warm gold lines and Christmas-green hot lines in light,
+    // and soft frost lines with gold hot lines in dark.
+    const christmasPalettes = {
+      dark: { bg: "#101e17", mesh: "196, 222, 205", lineAlpha: 0.08, accent: "rgba(212, 160, 23, 0.6)" },
+      light: { bg: "#f7eedc", mesh: "150, 110, 30", lineAlpha: 0.13, accent: "rgba(15, 122, 58, 0.6)" },
+    };
     const root = document.documentElement;
-    let palette = root.classList.contains("dark") ? palettes.dark : palettes.light;
+    const pickPalette = () => {
+      const set = root.dataset.season === "christmas" ? christmasPalettes : palettes;
+      return root.classList.contains("dark") ? set.dark : set.light;
+    };
+    let palette = pickPalette();
     const themeObserver = new MutationObserver(() => {
-      palette = root.classList.contains("dark") ? palettes.dark : palettes.light;
+      palette = pickPalette();
     });
-    themeObserver.observe(root, { attributes: true, attributeFilter: ["class"] });
+    themeObserver.observe(root, { attributes: true, attributeFilter: ["class", "data-season"] });
 
     const render = () => {
       if (!reduceMotion) time += 0.022;
