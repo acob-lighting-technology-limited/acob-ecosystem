@@ -8,6 +8,7 @@ import PlatformCard, { type Platform } from "@/components/platform-card";
 import LaunchOverlay, { type LaunchState } from "@/components/launch-overlay";
 import ThemeToggle from "@/components/theme-toggle";
 import SocialDock from "@/components/social-dock";
+import { ChristmasLogoHat } from "@/components/christmas-theme";
 
 const platforms: Platform[] = [
   {
@@ -89,15 +90,15 @@ export default function Home() {
         <NeonMesh className="absolute inset-0" />
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,var(--vignette)_100%)]"
+          className="page-vignette pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,var(--vignette)_100%)]"
         />
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-background to-transparent"
+          className="edge-fade-top pointer-events-none absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-background to-transparent"
         />
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-background to-transparent"
+          className="edge-fade-bottom pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-background to-transparent"
         />
       </div>
 
@@ -106,27 +107,33 @@ export default function Home() {
       <div className="page-content pointer-events-none relative z-10 mx-auto flex min-h-screen max-w-6xl flex-col px-6 py-7 sm:px-8 lg:h-screen lg:px-10">
         {/* -my-2 absorbs the taller logo so it scales up without pushing the
             hero and cards further down the page. */}
-        <header className="animate-fade-up -my-2 flex shrink-0 items-center justify-between gap-4">
+        <header data-christmas-header className="relative z-20 animate-fade-up -my-2 flex shrink-0 items-center justify-between gap-4">
           {/* Both variants are rendered and swapped by the `dark` class, so the
               right logo shows on first paint without waiting for hydration. */}
-          <Image
-            src="/images/acob-logo-light-2026.png"
-            alt="ACOB Lighting Technology Limited"
-            width={3539}
-            height={919}
-            priority
-            sizes="240px"
-            className="h-12 w-auto sm:h-14 dark:hidden"
-          />
-          <Image
-            src="/images/acob-logo-dark-2026.png"
-            alt="ACOB Lighting Technology Limited"
-            width={3533}
-            height={919}
-            priority
-            sizes="240px"
-            className="hidden h-12 w-auto sm:h-14 dark:block"
-          />
+          {/* Plain logo; at Christmas the hat is its own layer (ChristmasLogoHat)
+              so it can drop on and lift off with the reveal, as in Matrix. */}
+          <span className="relative flex shrink-0">
+            <Image
+              src="/images/acob-logo-light-2026.png"
+              alt="ACOB Lighting Technology Limited"
+              width={3539}
+              height={919}
+              priority
+              sizes="240px"
+              className="h-12 w-auto sm:h-14 dark:hidden"
+            />
+            <Image
+              src="/images/acob-logo-dark-2026.png"
+              alt="ACOB Lighting Technology Limited"
+              width={3533}
+              height={919}
+              priority
+              sizes="240px"
+              className="hidden h-12 w-auto sm:h-14 dark:block"
+            />
+            <ChristmasLogoHat mode="light" />
+            <ChristmasLogoHat mode="dark" />
+          </span>
           <div className="flex items-center gap-3">
             <span className="pointer-events-auto hidden items-center gap-2 rounded-full border border-line-strong bg-surface px-3.5 py-1.5 text-[11px] font-bold tracking-wide text-soft backdrop-blur-xl sm:inline-flex">
               <span className="animate-pulse-dot h-1.5 w-1.5 rounded-full bg-gold" />

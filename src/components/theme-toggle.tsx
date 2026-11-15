@@ -1,5 +1,6 @@
 "use client";
 
+import { ChristmasThemeOptions } from "@/components/christmas-theme"
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { Monitor, Moon, Sun } from "lucide-react";
@@ -67,7 +68,7 @@ export function ThemeToggle() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -8, scale: 0.95 }}
             transition={{ duration: 0.18, ease: "easeOut" }}
-            className="absolute right-0 top-full z-50 mt-2 w-40 overflow-hidden rounded-xl border border-line-strong bg-panel p-1.5 shadow-[0_20px_50px_-15px_var(--panel-shadow)]"
+            className="absolute right-0 top-full z-50 mt-2 w-52 overflow-hidden rounded-xl border border-line-strong bg-panel p-1.5 shadow-[0_20px_50px_-15px_var(--panel-shadow)]"
           >
             {themes.map(({ name, value, icon: Icon }) => {
               const active = mounted && theme === value;
@@ -109,6 +110,7 @@ export function ThemeToggle() {
                 </button>
               );
             })}
+          <ChristmasThemeOptions closeMenu={() => setIsOpen(false)} />
           </motion.div>
         )}
       </AnimatePresence>
