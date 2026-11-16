@@ -50,6 +50,7 @@ export function ThemeToggle() {
     <div className="pointer-events-auto relative" ref={dropdownRef}>
       <button
         type="button"
+        data-theme-toggle
         onClick={() => setIsOpen((open) => !open)}
         aria-haspopup="menu"
         aria-expanded={isOpen}

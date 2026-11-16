@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react"
 import { Snowflake, Sparkles, TreePine, X } from "lucide-react"
+import { ChristmasThemeHint } from "@/components/christmas-theme-hint"
 import { isChristmasPeriod } from "@/lib/christmas-period"
 
 type Option = "theme" | "flakes" | "drift"
@@ -124,12 +125,16 @@ export function ChristmasTheme() {
   const wasAvailable = useRef(false)
   const [greeting, setGreeting] = useState(false)
   const [greetingLeaving, setGreetingLeaving] = useState(false)
+  const [hint, setHint] = useState(false)
+  const closeHint = useCallback(() => setHint(false), [])
   // Slides back up and out like a notification, then unmounts.
   const closeGreeting = useCallback(() => {
     setGreetingLeaving(true)
     window.setTimeout(() => {
       setGreeting(false)
       setGreetingLeaving(false)
+      // Then point at the theme button so people know where to switch it off.
+      setHint(true)
     }, GREETING_EXIT_MS)
   }, [])
   useEffect(() => {
@@ -213,7 +218,9 @@ export function ChristmasTheme() {
     }
   }, [available, theme, closeGreeting])
 
-  if (!available || !theme || !greeting) return null
+  if (!available || !theme) return null
+  if (hint) return <ChristmasThemeHint onDone={closeHint} />
+  if (!greeting) return null
   return (
     <div className="christmas-greeting" role="status" data-leaving={greetingLeaving || undefined}>
       <Snowflake className="christmas-greeting-icon" aria-hidden />
