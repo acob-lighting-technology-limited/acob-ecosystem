@@ -209,8 +209,8 @@ export function ChristmasTheme() {
     if (!active || !firstInSeason) {
       return () => window.clearTimeout(revealTimer)
     }
-    const greetingTimer = window.setTimeout(() => setGreeting(true), 6000) // after the 4.5 s reveal
-    const dismissTimer = window.setTimeout(closeGreeting, 13000)
+    const greetingTimer = window.setTimeout(() => setGreeting(true), 4200) // 3 s into the reveal, once it has passed the top
+    const dismissTimer = window.setTimeout(closeGreeting, 11200)
     return () => {
       window.clearTimeout(revealTimer)
       window.clearTimeout(greetingTimer)
