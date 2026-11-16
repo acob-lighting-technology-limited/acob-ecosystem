@@ -46,8 +46,8 @@ function applyAppearance(active: boolean) {
 }
 
 /** Match the Matrix hat timing: drop finishes ~2.4s in, lift takes 0.9s. */
-const HAT_ARRIVAL_MS = 3800
-const HAT_LIFT_MS = 900
+const HAT_ARRIVAL_MS = 6000
+const HAT_LIFT_MS = 1300
 let revealVersion = 0
 
 function reveal(active: boolean) {
@@ -118,7 +118,7 @@ export function ChristmasLogoHat({ mode }: { mode: "light" | "dark" }) {
 }
 
 /** Matches the christmas-greet-out animation in globals.css. */
-const GREETING_EXIT_MS = 450
+const GREETING_EXIT_MS = 700
 
 export function ChristmasTheme() {
   const [available, theme, flakes, drift] = useChristmasPreferences()
@@ -209,8 +209,8 @@ export function ChristmasTheme() {
     if (!active || !firstInSeason) {
       return () => window.clearTimeout(revealTimer)
     }
-    const greetingTimer = window.setTimeout(() => setGreeting(true), 3000)
-    const dismissTimer = window.setTimeout(closeGreeting, 10000)
+    const greetingTimer = window.setTimeout(() => setGreeting(true), 6000) // after the 4.5 s reveal
+    const dismissTimer = window.setTimeout(closeGreeting, 13000)
     return () => {
       window.clearTimeout(revealTimer)
       window.clearTimeout(greetingTimer)
@@ -278,10 +278,10 @@ export function ChristmasThemeOptions({ closeMenu }: { closeMenu: () => void }) 
           <span className="flex-1">{label}</span>
           <span
             aria-hidden
-            className={`inline-flex h-6 w-11 shrink-0 items-center rounded-full border-2 border-transparent transition-colors ${checked ? "bg-brand" : "bg-line-strong"} ${disabled ? "opacity-50" : ""}`}
+            className={`inline-flex h-6 w-11 shrink-0 items-center rounded-full border-2 border-transparent transition-colors duration-300 ${checked ? "bg-brand" : "bg-line-strong"} ${disabled ? "opacity-50" : ""}`}
           >
             <span
-              className={`block h-5 w-5 rounded-full bg-white shadow-lg transition-transform ${checked ? "translate-x-5" : "translate-x-0"}`}
+              className={`block h-5 w-5 rounded-full bg-white shadow-lg transition-transform duration-300 ${checked ? "translate-x-5" : "translate-x-0"}`}
             />
           </span>
         </button>

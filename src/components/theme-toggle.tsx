@@ -69,7 +69,7 @@ export function ThemeToggle() {
             initial={{ opacity: 0, y: -8, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -8, scale: 0.95 }}
-            transition={{ duration: 0.18, ease: "easeOut" }}
+            transition={{ duration: 0.35, ease: "easeOut" }}
             className={`absolute right-0 top-full z-50 mt-2 ${christmasMenu ? "w-64" : "w-40"} overflow-hidden rounded-xl border border-line-strong bg-panel p-1.5 shadow-[0_20px_50px_-15px_var(--panel-shadow)]`}
           >
             {themes.map(({ name, value, icon: Icon }) => {

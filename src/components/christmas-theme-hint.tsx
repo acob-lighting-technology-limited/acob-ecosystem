@@ -6,7 +6,7 @@ import { X } from 'lucide-react';
 /** How long the hint stays before it leaves by itself. */
 const VISIBLE_MS = 7000;
 /** Matches christmas-hint-out in src/app/globals.css. */
-const EXIT_MS = 300;
+const EXIT_MS = 500;
 
 type Place = { top: number; right: number; arrow: number };
 
