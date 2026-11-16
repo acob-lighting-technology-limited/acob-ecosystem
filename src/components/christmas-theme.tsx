@@ -60,6 +60,10 @@ function reveal(active: boolean) {
     applyAppearance(active)
     return
   }
+  // On the way out the header hat gets its own view-transition layer, so it
+  // stays on above the shrinking look and lifts off near the end (CSS:
+  // ::view-transition-old(christmas-hat)) instead of leaving first.
+  let liftingHat: HTMLElement | undefined
   const spread = () => {
     if (!document.startViewTransition) {
       applyAppearance(active)
@@ -69,6 +73,7 @@ function reveal(active: boolean) {
     root.dataset.christmasTransition = active ? "enter" : "exit"
     const transition = document.startViewTransition(() => applyAppearance(active))
     const cleanup = () => {
+      liftingHat?.style.removeProperty("view-transition-name")
       if (version !== revealVersion) return
       delete root.dataset.christmasTransition
       root.classList.remove("christmas-departing")
@@ -84,7 +89,17 @@ function reveal(active: boolean) {
     spread()
     return
   }
-  // Reverse: the hat lifts off first, then the look shrinks into the logo.
+  if ("startViewTransition" in document) {
+    // Reverse: the look shrinks back into the logo with the hat still on; the
+    // hat lifts off as it closes.
+    liftingHat = Array.from(
+      document.querySelectorAll<HTMLElement>("header[data-christmas-header] .christmas-hat")
+    ).find(hat => hat.getBoundingClientRect().width > 0)
+    liftingHat?.style.setProperty("view-transition-name", "christmas-hat")
+    spread()
+    return
+  }
+  // No view transitions: lift the hat, then switch.
   root.classList.add("christmas-departing")
   window.setTimeout(() => {
     if (version === revealVersion) spread()

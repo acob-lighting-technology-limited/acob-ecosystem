@@ -398,6 +398,13 @@ html.christmas-departing .christmas-hat {
   transform-origin: 17% 40%;
   animation: christmas-hat-lift 0.9s cubic-bezier(0.4, 0, 0.6, 1) forwards;
 }
+/* Switching off: the header hat is its own transition layer (christmas-theme.tsx)
+   and stays on while the look shrinks back into the logo, lifting off near the end. */
+html[data-christmas-transition="exit"]::view-transition-group(christmas-hat) { animation-duration: 2.8s; }
+html[data-christmas-transition="exit"]::view-transition-old(christmas-hat) {
+  transform-origin: 17% 40%;
+  animation: christmas-hat-lift 0.9s 1.6s cubic-bezier(0.4, 0, 0.6, 1) both;
+}
 @keyframes christmas-hat-drop {
   from { opacity: 0; transform: translateY(-55%) rotate(-14deg); }
   50% { opacity: 1; }
