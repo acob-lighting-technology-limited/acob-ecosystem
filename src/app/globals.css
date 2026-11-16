@@ -278,21 +278,7 @@ html.dark[data-season="christmas"] .christmas-hat[data-mode="dark"] {
 }
 
 /* Match the Christmas controls and greeting in Matrix. */
-.christmas-options { border-top: 1px solid color-mix(in srgb, currentColor 18%, transparent); padding: 0.5rem; }
-.christmas-options p { padding: 0.25rem 0.5rem; font-size: 0.75rem; font-weight: 500; }
-.christmas-options label {
-  display: grid;
-  grid-template-columns: 2rem 1fr auto;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.375rem 0.5rem;
-  border-radius: 0.375rem;
-  cursor: pointer;
-  font-size: 0.875rem;
-}
-.christmas-options label:hover { background: color-mix(in srgb, currentColor 7%, transparent); }
-.christmas-options label:has(input:disabled) { opacity: 0.55; cursor: default; }
-.christmas-option-icon, .christmas-greeting-icon {
+.christmas-greeting-icon {
   display: grid;
   place-items: center;
   width: 2rem;
@@ -302,28 +288,6 @@ html.dark[data-season="christmas"] .christmas-hat[data-mode="dark"] {
   color: #187347;
   background: #18734722;
 }
-.dark .christmas-option-icon { color: #8ad2aa; }
-.christmas-options input {
-  appearance: none;
-  width: 2rem;
-  height: 1.125rem;
-  padding: 0.125rem;
-  border-radius: 999px;
-  background: #788681;
-  cursor: inherit;
-}
-.christmas-options input::before {
-  content: "";
-  display: block;
-  width: 0.875rem;
-  height: 0.875rem;
-  border-radius: 50%;
-  background: white;
-  transition: transform 150ms ease;
-}
-.christmas-options input:checked { background: #187347; }
-.christmas-options input:checked::before { transform: translateX(0.875rem); }
-.christmas-options input:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
 .christmas-greeting {
   position: fixed;
   top: 76px;

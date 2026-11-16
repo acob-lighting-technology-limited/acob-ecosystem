@@ -232,6 +232,16 @@ export function ChristmasTheme() {
   )
 }
 
+/** True in the season: the theme menu widens for the Christmas switches. */
+export function useChristmasMenuAvailable() {
+  const [available] = useChristmasPreferences()
+  return available
+}
+
+/**
+ * Christmas switches in the theme menu. Same structure and switch as the Matrix
+ * theme menu (section label, icon, label, switch), in this site's menu tokens.
+ */
 export function ChristmasThemeOptions({ closeMenu }: { closeMenu: () => void }) {
   const [available, theme, flakes, drift] = useChristmasPreferences()
   if (!available) return null
@@ -242,22 +252,39 @@ export function ChristmasThemeOptions({ closeMenu }: { closeMenu: () => void }) 
   ] as const
 
   return (
-    <div className="christmas-options" role="group" aria-label="Christmas">
-      <p>Christmas</p>
+    <div className="mt-1.5 border-t border-line pt-1.5" role="group" aria-label="Christmas">
+      <p className="px-2.5 pt-1 pb-1.5 text-[11px] font-semibold text-muted">Christmas</p>
       {options.map(({ key, label, Icon, checked, disabled }) => (
-        <label key={key}>
-          <span className="christmas-option-icon"><Icon className="size-4" aria-hidden /></span>
-          <span>{label}</span>
-          <input type="checkbox" role="switch" aria-label={label} checked={checked} disabled={disabled} onChange={(event) => {
+        <button
+          key={key}
+          type="button"
+          role="switch"
+          aria-checked={checked}
+          disabled={disabled}
+          className="flex w-full items-center gap-3 rounded-lg px-2.5 py-2 text-left text-[13px] text-foreground transition-colors hover:bg-chip focus-visible:outline-2 focus-visible:outline-glow disabled:cursor-not-allowed disabled:text-subtle disabled:hover:bg-transparent"
+          onClick={() => {
             try {
-              window.localStorage.setItem(`acob-christmas-${key}`, event.currentTarget.checked ? "on" : "off")
+              window.localStorage.setItem(`acob-christmas-${key}`, checked ? "off" : "on")
             } catch {
               return
             }
             if (key === "theme") closeMenu()
             window.dispatchEvent(new Event(eventName))
-          }} />
-        </label>
+          }}
+        >
+          <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-glow/10 text-accent">
+            <Icon className="h-3.5 w-3.5" aria-hidden />
+          </span>
+          <span className="flex-1">{label}</span>
+          <span
+            aria-hidden
+            className={`inline-flex h-6 w-11 shrink-0 items-center rounded-full border-2 border-transparent transition-colors ${checked ? "bg-brand" : "bg-line-strong"} ${disabled ? "opacity-50" : ""}`}
+          >
+            <span
+              className={`block h-5 w-5 rounded-full bg-white shadow-lg transition-transform ${checked ? "translate-x-5" : "translate-x-0"}`}
+            />
+          </span>
+        </button>
       ))}
     </div>
   )
