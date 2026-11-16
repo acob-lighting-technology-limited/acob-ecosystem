@@ -348,12 +348,19 @@ html.dark[data-season="christmas"] .christmas-hat[data-mode="dark"] {
 .dark .christmas-greeting-icon { color: #ffb9bd; }
 .christmas-greeting button { display: grid; place-items: center; width: 1.75rem; height: 1.75rem; border-radius: 50%; }
 .christmas-greeting button:hover { background: #80808022; }
+/* Like a notification: drops in from above the top of the screen, and on
+   close or timeout slides back up and out (data-leaving, GREETING_EXIT_MS). */
 @keyframes christmas-greet-in {
-  from { opacity: 0; transform: translate(-50%, -12px); }
+  from { opacity: 0; transform: translate(-50%, calc(-100% - 76px)); }
   to { opacity: 1; transform: translate(-50%, 0); }
 }
+@keyframes christmas-greet-out {
+  from { opacity: 1; transform: translate(-50%, 0); }
+  to { opacity: 0; transform: translate(-50%, calc(-100% - 76px)); }
+}
 @media (prefers-reduced-motion: no-preference) {
-  .christmas-greeting { animation: christmas-greet-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) both; }
+  .christmas-greeting { animation: christmas-greet-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) both; }
+  .christmas-greeting[data-leaving] { animation: christmas-greet-out 0.45s cubic-bezier(0.55, 0, 1, 0.45) forwards; }
 }
 html[data-christmas-snow="off"] body::after { display: none; }
 html[data-christmas-snow="still"] body::after { animation-play-state: paused; }

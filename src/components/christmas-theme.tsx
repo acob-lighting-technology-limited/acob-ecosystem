@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef, useState, useSyncExternalStore } from "react"
+import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react"
 import { Snowflake, Sparkles, TreePine, X } from "lucide-react"
 import { isChristmasPeriod } from "@/lib/christmas-period"
 
@@ -101,10 +101,22 @@ export function ChristmasLogoHat({ mode }: { mode: "light" | "dark" }) {
   return <span aria-hidden className="christmas-hat" data-mode={mode} />
 }
 
+/** Matches the christmas-greet-out animation in globals.css. */
+const GREETING_EXIT_MS = 450
+
 export function ChristmasTheme() {
   const [available, theme, flakes, drift] = useChristmasPreferences()
   const wasAvailable = useRef(false)
   const [greeting, setGreeting] = useState(false)
+  const [greetingLeaving, setGreetingLeaving] = useState(false)
+  // Slides back up and out like a notification, then unmounts.
+  const closeGreeting = useCallback(() => {
+    setGreetingLeaving(true)
+    window.setTimeout(() => {
+      setGreeting(false)
+      setGreetingLeaving(false)
+    }, GREETING_EXIT_MS)
+  }, [])
   useEffect(() => {
     const timer = window.setInterval(() => window.dispatchEvent(new Event(eventName)), 60_000)
     return () => window.clearInterval(timer)
@@ -178,20 +190,20 @@ export function ChristmasTheme() {
       return () => window.clearTimeout(revealTimer)
     }
     const greetingTimer = window.setTimeout(() => setGreeting(true), 3000)
-    const dismissTimer = window.setTimeout(() => setGreeting(false), 10000)
+    const dismissTimer = window.setTimeout(closeGreeting, 10000)
     return () => {
       window.clearTimeout(revealTimer)
       window.clearTimeout(greetingTimer)
       window.clearTimeout(dismissTimer)
     }
-  }, [available, theme])
+  }, [available, theme, closeGreeting])
 
   if (!available || !theme || !greeting) return null
   return (
-    <div className="christmas-greeting" role="status">
+    <div className="christmas-greeting" role="status" data-leaving={greetingLeaving || undefined}>
       <Snowflake className="christmas-greeting-icon" aria-hidden />
       <span>Season&apos;s greetings from ACOB</span>
-      <button type="button" aria-label="Dismiss greeting" title="Dismiss greeting" onClick={() => setGreeting(false)}>
+      <button type="button" aria-label="Dismiss greeting" title="Dismiss greeting" onClick={closeGreeting}>
         <X className="size-4" aria-hidden />
       </button>
     </div>
